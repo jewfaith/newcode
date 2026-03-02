@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Restricting access and mitigating XSS/extensions -->
+    <meta http-equiv="Content-Security-Policy"
+        content="default-src 'none'; style-src 'unsafe-inline'; script-src 'self'; connect-src http://127.0.0.1:3000;">
+    <title>Zero-Knowledge Vault - OpSec Grade</title>
+    <style>
+        body {
+            background-color: #0d0d0d;
+            color: #d4d4d4;
+            font-family: monospace;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        .container {
+            background-color: #1a1a1a;
+            padding: 30px;
+            border: 1px solid #333;
+            border-radius: 4px;
+            width: 480px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+        }
+
+        h1 {
+            font-size: 1.2rem;
+            text-align: center;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #fff;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 0.9rem;
+        }
+
+        input[type="password"],
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            background-color: #000;
+            border: 1px solid #444;
+            color: #0f0;
+            box-sizing: border-box;
+            font-family: inherit;
+        }
+
+        input[type="file"] {
+            margin-top: 5px;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        button {
+            flex: 1;
+            padding: 10px;
+            background-color: #333;
+            color: #fff;
+            border: 1px solid #555;
+            cursor: pointer;
+            font-family: inherit;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+        }
+
+        button:hover {
+            background-color: #444;
+        }
+
+        .btn-decoy {
+            background-color: #4a3b00;
+            border-color: #7a6200;
+        }
+
+        .btn-decoy:hover {
+            background-color: #634f00;
+        }
+
+        .actions {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #333;
+        }
+
+        #status {
+            margin-top: 15px;
+            font-size: 0.85rem;
+            word-break: break-all;
+            color: #888;
+        }
+
+        .success {
+            color: #0f0;
+        }
+
+        .error {
+            color: #f00;
+        }
+
+        .warning {
+            color: #ff0;
+            font-size: 0.75rem;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h1>Zero-Knowledge Vault</h1>
+
+        <div class="form-group">
+            <label for="passphrase">Private Key (Passphrase)</label>
+            <input type="password" id="passphrase" placeholder="Enter Passphrase..." autocomplete="new-password">
+        </div>
+
+        <!-- Upload Section -->
+        <div class="form-group">
+            <label for="fileInput">Store Real Document</label>
+            <input type="file" id="fileInput">
+        </div>
+        <div class="form-group">
+            <label for="appendId">Target Vault ID (Leave empty for new ID)</label>
+            <input type="text" id="appendId" placeholder="Enter Target...">
+        </div>
+        <div class="btn-group">
+            <button id="btnStore">Encrypt & Store</button>
+            <button id="btnDecoy" class="btn-decoy">Generate Decoy Fill</button>
+        </div>
+
+        <!-- Retrieve Section -->
+        <div class="actions">
+            <div class="form-group">
+                <label for="vaultId">Blob ID</label>
+                <input type="text" id="vaultId" placeholder="Enter Blob...">
+            </div>
+            <div class="btn-group">
+                <button id="btnRetrieve">Retrieve</button>
+                <button id="btnDelete">Secure Delete</button>
+            </div>
+        </div>
+
+        <div id="status">Ready. Constant-Time & Anti-Forensic mode active.</div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+
+</html>
